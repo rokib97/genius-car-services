@@ -6,7 +6,7 @@ const Footer = () => {
     return currentYear;
   };
   return (
-    <footer>
+    <footer className="text-center mt-5">
       <p>
         <small>Copyright &copy; {getYear()}</small>
         <br /> Made with ❤️ by Rokib 🔥
