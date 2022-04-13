@@ -8,12 +8,16 @@ import auth from "../../../firebase.init";
 import facebook from "../../../images/social/facebook.png";
 import google from "../../../images/social/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png";
 import github from "../../../images/social/Octocat.png";
+import Loading from "../../Shared/Loading/Loading";
 
 const SocialLogin = () => {
   const navigate = useNavigate();
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [signInWithGithub, user1, loading1, error1] = useSignInWithGithub(auth);
   let errorElement;
+  if (loading || loading1) {
+    return <Loading></Loading>;
+  }
   if (error || error1) {
     errorElement = (
       <p className="text-danger text-center">
