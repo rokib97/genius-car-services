@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   useSignInWithGithub,
   useSignInWithGoogle,
@@ -15,6 +15,11 @@ const SocialLogin = () => {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [signInWithGithub, user1, loading1, error1] = useSignInWithGithub(auth);
   let errorElement;
+  useEffect(() => {
+    if (user || user1) {
+      navigate("/home");
+    }
+  }, [user, navigate, user1]);
   if (loading || loading1) {
     return <Loading></Loading>;
   }
@@ -25,9 +30,7 @@ const SocialLogin = () => {
       </p>
     );
   }
-  if (user || user1) {
-    navigate("/home");
-  }
+
   return (
     <div>
       <div className="d-flex align-items-center">

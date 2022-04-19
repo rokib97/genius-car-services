@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import {
   useSendPasswordResetEmail,
@@ -8,6 +8,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import auth from "../../../firebase.init";
+import PageTitle from "../../Shared/Header/PageTitle/PageTitle";
 import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
@@ -23,6 +24,12 @@ const Login = () => {
     useSignInWithEmailAndPassword(auth);
   const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
   let errorElement;
+  useEffect(() => {
+    if (user) {
+      navigate(from, { replace: true });
+    }
+  }, [user, navigate, from]);
+
   if (loading || sending) {
     return <Loading></Loading>;
   }
@@ -30,10 +37,6 @@ const Login = () => {
     errorElement = (
       <p className="text-danger text-center">Error: {error?.message}</p>
     );
-  }
-
-  if (user) {
-    navigate(from, { replace: true });
   }
 
   const handleSumbit = (event) => {
@@ -57,6 +60,7 @@ const Login = () => {
   };
   return (
     <div className="container w-50 mx-auto">
+      <PageTitle title="Login"></PageTitle>
       <h2 className="text-primary text-center">Please Login</h2>
       <Form onSubmit={handleSumbit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
