@@ -4,6 +4,7 @@ import {
   useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import auth from "../../../firebase.init";
 import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "../SocialLogin/SocialLogin";
@@ -37,7 +38,8 @@ const Register = () => {
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName: name });
     console.log("Updated profile");
-    navigate("/home");
+    toast("Email verification sent");
+    navigate("/checkout");
   };
 
   return (
@@ -90,6 +92,7 @@ const Register = () => {
           Please Login
         </Link>
       </p>
+
       <SocialLogin></SocialLogin>
     </div>
   );

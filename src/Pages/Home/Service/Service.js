@@ -4,7 +4,7 @@ import "./Service.css";
 
 const Service = ({ service }) => {
   const navigate = useNavigate();
-  const { id, name, img, price, description } = service;
+  const { _id, name, img, price, description } = service;
   const handleUseNavigate = (id) => {
     navigate(`/service/${id}`);
   };
@@ -16,7 +16,10 @@ const Service = ({ service }) => {
       <p>
         <small>{description}</small>
       </p>
-      <button onClick={() => handleUseNavigate(id)} className="btn btn-primary">
+      <button
+        onClick={() => handleUseNavigate(_id)}
+        className="btn btn-primary"
+      >
         Book: {name}
       </button>
     </div>
