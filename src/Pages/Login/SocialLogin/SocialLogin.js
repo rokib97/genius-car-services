@@ -3,7 +3,7 @@ import {
   useSignInWithGithub,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
 import facebook from "../../../images/social/facebook.png";
 import google from "../../../images/social/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png";
@@ -12,14 +12,16 @@ import Loading from "../../Shared/Loading/Loading";
 
 const SocialLogin = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [signInWithGithub, user1, loading1, error1] = useSignInWithGithub(auth);
   let errorElement;
   useEffect(() => {
     if (user || user1) {
-      navigate("/home");
+      navigate(from, { replace: true });
     }
-  }, [user, navigate, user1]);
+  }, [user, navigate, user1, from]);
   if (loading || loading1) {
     return <Loading></Loading>;
   }

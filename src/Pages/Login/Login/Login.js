@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import axios from "axios";
+import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import {
   useSendPasswordResetEmail,
@@ -24,11 +25,11 @@ const Login = () => {
     useSignInWithEmailAndPassword(auth);
   const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
   let errorElement;
-  useEffect(() => {
+  /*   useEffect(() => {
     if (user) {
       navigate(from, { replace: true });
     }
-  }, [user, navigate, from]);
+  }, [user, navigate, from]); */
 
   if (loading || sending) {
     return <Loading></Loading>;
@@ -39,16 +40,21 @@ const Login = () => {
     );
   }
 
-  const handleSumbit = (event) => {
+  const handleSumbit = async (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     console.log(email, password);
-    signInWithEmailAndPassword(email, password);
+    await signInWithEmailAndPassword(email, password);
+    const { data } = await axios.post("http://localhost:5000/login", { email });
+    console.log(data);
+    localStorage.setItem("accessToken", data.accessToken);
+    navigate(from, { replace: true });
   };
   const navigateRegister = (event) => {
     navigate("/register");
   };
+
   const resetPassword = async () => {
     const email = emailRef.current.value;
     if (email) {
